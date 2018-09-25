@@ -1,0 +1,54 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<title>¡Arma tu Pizza!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+	body {background-color: powderblue;}
+	h1   {color: red;}
+</style>
+</head>
+<body>
+<h1> ¡Arma tu Pizza!. </h1>
+
+ <form action=# method="post"> 
+  <label>Nombre:</label><br>
+  <input type="text" name="nombre" maxlength="25" size="30" required>
+  <br>
+  <br>
+  <label>Teléfono:</label><br>
+  <input type="text" name="telefono" maxlength="20" required>
+  <br>
+  <br>
+	<label>Dirección:</label><br>
+  <input type="text" name="direccion" maxlength="200" required>
+  <br>
+  <br>
+  <label>Comuna:</label><br>
+  <input type="radio" name="comuna" value="1000"> Santiago
+  <input type="radio" name="comuna" value="1010"> Providencia
+  <input type="radio" name="comuna" value="1011"> Recoleta
+  <br>
+  <br>
+  <label>Tipo de Masa:</label><br>
+  <input type="radio" name="masa" value="delgada"> Masa Delgada
+  <input type="radio" name="masa" value="normal"> Masa Normal
+  <input type="radio" name="masa" value="merquen"> Masa Merquén
+  <br>
+  <br>
+  <label>Ingredientes:</label><br>
+  <input type="checkbox" name="ingredientes" value="200"> Peperonni<br>
+  <input type="checkbox" name="ingredientes" value="200"> Aceitunas<br>
+  <input type="checkbox" name="ingredientes" value="200"> Queso<br>
+  <input type="checkbox" name="ingredientes" value="200"> Carne<br>
+  <br>
+  <br>
+	<label>Comentario:</label><br>
+  <textarea name="comentario" rows="10" cols="40"></textarea>
+  <br>
+  <input type="submit" value="Submit">
+  <input type="reset">
+
+</form>
+</body>
+</html>
