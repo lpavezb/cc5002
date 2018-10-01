@@ -7,22 +7,20 @@
 <body>
 <form>
 <label>Regiones:</label><br>
-<select>
-  <option value="Región del Bío-Bío">Región del Bío-Bío</option>
-  <option value="Región del Maule">Región del Maule</option>
-  <option value="Región Metropolitana">Región Metropolitana</option>
+<select onchange="fun(this.value)">
+  <option value="select">region ...</option>	
+  <option value="biobio">Región del Bío-Bío</option>
+  <option value="maule">Región del Maule</option>
+  <option value="metro">Región Metropolitana</option>
 </select>
 <br>
 <br>
 <label>Comunas:</label><br>
-<select>
-  <option value="Región del Bío-Bío">Región del Bío-Bío</option>
-  <option value="Región del Maule">Región del Maule</option>
-  <option value="Región Metropolitana">Región Metropolitana</option>
+<select id="comunas">
 </select>
 </form>
 <script type="text/javascript">
-var regiones = ["Región del Bío-Bío", "Región del Maule", "Región Metropolitana"];
+var regiones = ["biobio", "maule", "metro"];
 var comunasRegionBioBio = [
 	"Concepción",
 	"Coronel",
@@ -59,7 +57,24 @@ var comunasRegionMetropolitana = [
 	"La Cisterna",
 	"La Florida"
 ];
+var regiones2 = [comunasRegionBioBio, comunasRegionMaule, comunasRegionMetropolitana];
 
+function fun(value){
+	var comunas = document.getElementById("comunas");
+	for (var i = comunas.options.length - 1; i >= 0; i--) {
+		comunas.remove(i);
+	}
+	for (var i = regiones.length - 1; i >= 0; i--) {
+		if (value == regiones[i]) {
+			var rgs = regiones2[i]
+			for (var i = rgs.length - 1; i >= 0; i--) {
+				var option = document.createElement("option");
+				option.text = rgs[i];
+				comunas.add(option);
+			}
+		}
+	}
+}
 </script>
 </body>
 </html>
