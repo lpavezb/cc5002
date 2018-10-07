@@ -1,0 +1,211 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <title>Viajes</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    </head>
+    <body>
+        <form name="viajes" action=# onsubmit="return validateForm()" method="post"> 
+            <label>Region Origen:</label><br>
+            <select id="region-origen" name="region-origen" onchange="comunas(this.value, 'comuna-origen')">
+                <option value="select">Seleccione Región</option>
+            </select><br>
+            <br>
+            <label>Comuna Origen:</label><br>
+            <select id="comuna-origen" name="comuna-origen">
+                <option value="select">Seleccione Comuna</option>
+            </select>
+            <br>
+            <br>
+            <label>Region Destino:</label><br>
+            <select id="region-destino" name="region-destino" onchange="comunas(this.value,'comuna-destino')">
+                <option value="select">Seleccione Región</option>
+            </select><br>
+            <br>
+            <label>Comuna Destino:</label><br>
+            <select id="comuna-destino" name="comuna-destino">
+                <option value="select">Seleccione Comuna</option>
+            </select>
+            <br>
+            <br>
+            <label>Fecha Viaje (yyyy-mm-dd):</label>
+            <input type="text" name="fecha-viaje" size="10">
+            <br>
+            <br>
+            <label>Espacio Disponible:</label><br>
+            <select name="espacio-disponible">
+                <option value="select">Seleccione Espacio</option>
+                <option value="10">10x10x10</option>
+                <option value="20">20x20x20</option>
+                <option value="30">30x30x30</option>
+            </select>
+            <br>
+            <br>
+            <label>Kilos Disponibles:</label><br>
+            <select name="kilos-disponibles">
+                <option value="select">Seleccione Espacio</option>
+                <option value="200">200 gr</option>
+                <option value="500">500 gr</option>
+                <option value="800">800 gr</option>
+                <option value="1">1 kg</option>
+                <option value="1.5">1.5 kg</option>
+                <option value="2">2 kg</option>
+            </select>
+            <br>
+            <br>
+            <label>Email viajero:</label>
+            <input type="text" name="email" maxlength="30" size="30">
+            <br>
+            <br>
+            <label>Número celular viajero:</label>
+            <input type="text" value="" name="celular" size="15">
+            <br>
+            <br>
+            <input type="submit" name="agregar-viaje" value="Agregar Viaje">
+            
+        </form>
+        <script type="text/javascript">
+            var regions = ["Arica y Parinacota", "Tarapacá", "Antofagasta", "Atacama", "Coquimbo", "Valparaíso", "O'Higgins", "Maule", "Ñuble", "Biobío", "La Araucanía", "Los Ríos", "Los Lagos", "Aisén", "Magallanes", "Metropolitana"];
+            var regionesYcomunas = {
+                "Arica y Parinacota": ["Arica", "Camarones", "Putre", "General Lagos"],
+        
+                "Tarapacá": ["Iquique", "Alto Hospicio", "Pozo Almonte", "Camiña", "Colchane", "Huara", "Pica"],
+        
+                "Antofagasta": ["Antofagasta", "Mejillones", "Sierra Gorda", "Taltal", "Calama", "Ollagüe", "San Pedro de Atacama", "Tocopilla", "María Elena"],
+        
+                "Atacama": ["Copiapó", "Caldera", "Tierra Amarilla", "Chañaral", "Diego de Almagro", "Vallenar", "Alto del Carmen", "Freirina", "Huasco"],
+        
+                "Coquimbo": ["La Serena", "Coquimbo", "Andacollo", "La Higuera", "Paiguano", "Vicuña", "Illapel", "Canela", "Los Vilos", "Salamanca", "Ovalle", "Combarbalá", "Monte Patria", "Punitaqui", "Río Hurtado"],
+        
+                "Valparaíso": ["Valparaíso", "Casablanca", "Concón", "Juan Fernández", "Puchuncaví", "Quintero", "Viña del Mar", "Isla de Pascua", "Los Andes", "Calle Larga", "Rinconada", "San Esteban", "La Ligua", "Cabildo", "Papudo", "Petorca", "Zapallar", "Quillota", "Calera", "Hijuelas", "La Cruz", "Nogales", "San Antonio", "Algarrobo", "Cartagena", "El Quisco", "El Tabo", "Santo Domingo", "San Felipe", "Catemu", "Llaillay", "Panquehue", "Putaendo", "Santa María", "Quilpué", "Limache", "Olmué", "Villa Alemana"],
+        
+                "O’Higgins": ["Rancagua", "Codegua", "Coinco", "Coltauco", "Doñihue", "Graneros", "Las Cabras", "Machalí", "Malloa", "Mostazal", "Olivar", "Peumo", "Pichidegua", "Quinta de Tilcoco", "Rengo", "Requínoa", "San Vicente", "Pichilemu", "La Estrella", "Litueche", "Marchihue", "Navidad", "Paredones", "San Fernando", "Chépica", "Chimbarongo", "Lolol", "Nancagua", "Palmilla", "Peralillo", "Placilla", "Pumanque", "Santa Cruz"],
+        
+                "Maule": ["Talca", "Constitución", "Curepto", "Empedrado", "Maule", "Pelarco", "Pencahue", "Río Claro", "San Clemente", "San Rafael", "Cauquenes", "Chanco", "Pelluhue", "Curicó", "Hualañé", "Licantén", "Molina", "Rauco", "Romeral", "Sagrada Familia", "Teno", "Vichuquén", "Linares", "Colbún", "Longaví", "Parral", "Retiro", "San Javier", "Villa Alegre", "Yerbas Buenas"],
+        
+                "Ñuble": ["San Carlos", "San Fabián", "Coihueco", "Ñiquén", "San Nicolás", "Bulnes", "Chillán", "Chillán Viejo", "El Carmen", "Pemuco", "Pinto", "Quillón", "San Ignacio", "Yungay", "Quirihue", "Cobquecura", "Coelemu", "Ninhue", "Portezuelo", "Ránquil", "Treguaco"],
+        
+                "Biobío": ["Concepción", "Coronel", "Chiguayante", "Florida", "Hualqui", "Lota", "Penco", "San Pedro de la Paz", "Santa Juana", "Talcahuano", "Tomé", "Hualpén", "Lebu", "Arauco", "Cañete", "Contulmo", "Curanilahue", "Los Álamos", "Tirúa", "Los Ángeles", "Antuco", "Cabrero", "Laja", "Mulchén", "Nacimiento", "Negrete", "Quilaco", "Quilleco", "San Rosendo", "Santa Bárbara", "Tucapel", "Yumbel", "Alto Biobío"],
+        
+                "Araucanía": ["Temuco", "Carahue", "Cunco", "Curarrehue", "Freire", "Galvarino", "Gorbea", "Lautaro", "Loncoche", "Melipeuco", "Nueva Imperial", "Padre las Casas", "Perquenco", "Pitrufquén", "Pucón", "Saavedra", "Teodoro Schmidt", "Toltén", "Vilcún", "Villarrica", "Cholchol", "Angol", "Collipulli", "Curacautín", "Ercilla", "Lonquimay", "Los Sauces", "Lumaco", "Purén", "Renaico", "Traiguén", "Victoria", ],
+        
+                "Los Ríos": ["Valdivia", "Corral", "Lanco", "Los Lagos", "Máfil", "Mariquina", "Paillaco", "Panguipulli", "La Unión", "Futrono", "Lago Ranco", "Río Bueno"],
+        
+                "Los Lagos": ["Puerto Montt", "Calbuco", "Cochamó", "Fresia", "Frutillar", "Los Muermos", "Llanquihue", "Maullín", "Puerto Varas", "Castro", "Ancud", "Chonchi", "Curaco de Vélez", "Dalcahue", "Puqueldón", "Queilén", "Quellón", "Quemchi", "Quinchao", "Osorno", "Puerto Octay", "Purranque", "Puyehue", "Río Negro", "San Juan de la Costa", "San Pablo", "Chaitén", "Futaleufú", "Hualaihué", "Palena"],
+        
+                "Aisén": ["Coihaique", "Lago Verde", "Aisén", "Cisnes", "Guaitecas", "Cochrane", "O’Higgins", "Tortel", "Chile Chico", "Río Ibáñez"],
+        
+                "Magallanes": ["Punta Arenas", "Laguna Blanca", "Río Verde", "San Gregorio", "Cabo de Hornos (Ex Navarino)", "Antártica", "Porvenir", "Primavera", "Timaukel", "Natales", "Torres del Paine"],
+        
+                "Metropolitana": ["Santiago", "Cerrillos", "Cerro Navia", "Conchalí", "El Bosque", "Estación Central", "Huechuraba", "Independencia", "La Cisterna", "La Florida", "La Granja", "La Pintana", "La Reina", "Las Condes", "Lo Barnechea", "Lo Espejo", "Lo Prado", "Macul", "Maipú", "Ñuñoa", "Pedro Aguirre Cerda", "Peñalolén", "Providencia", "Pudahuel", "Quilicura", "Quinta Normal", "Recoleta", "Renca", "San Joaquín", "San Miguel", "San Ramón", "Vitacura", "Puente Alto", "Pirque", "San José de Maipo", "Colina", "Lampa", "Tiltil", "San Bernardo", "Buin", "Calera de Tango", "Paine", "Melipilla", "Alhué", "Curacaví", "María Pinto", "San Pedro", "Talagante", "El Monte", "Isla de Maipo", "Padre Hurtado", "Peñaflor"]
+            };
+            var reg_o = document.getElementById("region-origen");
+            var reg_d = document.getElementById("region-destino");
+            for (var i = regions.length - 1; i >= 0; i--) {
+                var option = document.createElement("option");
+                var op_d = document.createElement("option");
+                option.text = regions[i];
+                option.value = regions[i];
+                op_d.text = regions[i];
+                op_d.value = regions[i];
+                reg_o.add(option);
+                reg_d.add(op_d);
+            }
+            function comunas(value, id) {
+                var com = document.getElementById(id);
+                for (var i = com.options.length - 1; i > 0; i--) {
+                    com.remove(i);
+                }
+                if (value !== "select") {
+                    var comunas = regionesYcomunas[value];
+                    for (var i = comunas.length - 1; i >= 0; i--) {
+                        var option = document.createElement("option");
+                        option.text = comunas[i];
+                        option.value = comunas[i];
+                        com.add(option);
+                    }
+                }
+            }
+
+            function validateNum(number){
+                if(number.length != 8){
+                    return false;
+                }
+                for (var i = 0; i < 8; i++) {
+                    if(isNaN(parseInt(number.charAt(i)))){
+                        return false;
+                    }
+                }
+                return true
+            }
+
+            function validateEmail(email){
+                // se valida que el formato sea text@text.text
+                var textBeforeDot = false;
+                var textAfterDot = false;
+                var textBeforeAt = false;
+                var textAfterAt = false;
+                var at = false;
+                var dot = false;
+                for (var i = 0; i < email.length; i++) {
+                    if(email.charAt(i)=='@'){
+                        if(at)
+                            return false;
+                        at = true;
+                    }else{
+                        if(!at){
+                            textBeforeAt = true;
+                        }else{
+                            textAfterAt = true;
+                        }
+                    }
+                    if(at){
+                        if(email.charAt(i)=='.'){
+                            if (dot) {
+                                return false;
+                            }
+                            dot = true;
+                        }else{
+                            if (!dot) {
+                                textBeforeDot = true;
+                            }else{
+                                textAfterDot = true;
+                            }
+                        }
+                    }
+                }
+                return textBeforeAt && at && textAfterAt && textBeforeDot && dot && textAfterDot;
+
+            }
+
+            function validateForm(){
+                var x = document.forms["viajes"];
+                var sel = [x["region-origen"], x["comuna-origen"], x["region-destino"], x["comuna-destino"], x["espacio-disponible"], x["kilos-disponibles"]];
+                for (var i = 0; i < sel.length; i++) {
+                    if (sel[i].value === "select") {
+                        alert("Debe llenar el campo " + sel[i].name.replace("-"," "));
+                        return false;
+                    }
+                }
+                var fecha = new Date(x["fecha-viaje"].value);
+                if(fecha.toString()==="Invalid Date"){
+                    alert("Formato de fecha incorrecto");
+                    return false;
+                }
+                var e = x["email"].value;
+                if(!validateEmail(e)){
+                    alert("Email no valido");
+                    return false;
+                }
+                var num = x["celular"].value;
+                if(num !== ""){
+                    if(!validateNum(num)){
+                        alert("Numero de telefono debe ser de 8 dígitos");
+                        return false;
+                    }
+                }
+                return false;
+            }
+            </script>
+    </body>
+</html>
