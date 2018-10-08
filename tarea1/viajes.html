@@ -3,6 +3,31 @@
     <head>
         <title>Viajes</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <style>
+            body{
+                background-image: url("viaje.jpeg");
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+
+            label{
+                background-color: white;
+                font-weight: bold;
+                font: 20px arial, sans-serif;
+            }
+
+            select{
+                font: 15px arial, sans-serif;
+                font-weight: bold;
+            }input{
+                font: 15px arial, sans-serif;
+                font-weight: bold;
+                width: auto;
+                height: auto;
+                padding: 5px;  
+                color: black;
+            }
+        </style>
     </head>
     <body>
         <form name="viajes" action=# onsubmit="return validateForm()" method="post"> 
@@ -29,15 +54,15 @@
             <br>
             <br>
             <label>Fecha Viaje (yyyy-mm-dd):</label>
-            <input type="text" name="fecha-viaje" size="10">
+            <input type="text" name="fecha-viaje" value="" size="10">
             <br>
             <br>
             <label>Espacio Disponible:</label><br>
             <select name="espacio-disponible">
                 <option value="select">Seleccione Espacio</option>
-                <option value="10">10x10x10</option>
-                <option value="20">20x20x20</option>
-                <option value="30">30x30x30</option>
+                <option value="10x10x10">10x10x10</option>
+                <option value="20x20x20">20x20x20</option>
+                <option value="30x30x30">30x30x30</option>
             </select>
             <br>
             <br>
@@ -62,9 +87,13 @@
             <br>
             <br>
             <input type="submit" name="agregar-viaje" value="Agregar Viaje">
-            
+            <br>
+            <br>
+            <br>
+            <input type="button" onclick="location.href='index.html';" value="Inicio"/>    
+            <input type="button" onclick="location.href='ver_viajes.html';" value="Ver Viajes"/>
         </form>
-        <script type="text/javascript">
+        <script>
             var regions = ["Arica y Parinacota", "Tarapacá", "Antofagasta", "Atacama", "Coquimbo", "Valparaíso", "O'Higgins", "Maule", "Ñuble", "Biobío", "La Araucanía", "Los Ríos", "Los Lagos", "Aisén", "Magallanes", "Metropolitana"];
             var regionesYcomunas = {
                 "Arica y Parinacota": ["Arica", "Camarones", "Putre", "General Lagos"],
@@ -87,7 +116,7 @@
         
                 "Biobío": ["Concepción", "Coronel", "Chiguayante", "Florida", "Hualqui", "Lota", "Penco", "San Pedro de la Paz", "Santa Juana", "Talcahuano", "Tomé", "Hualpén", "Lebu", "Arauco", "Cañete", "Contulmo", "Curanilahue", "Los Álamos", "Tirúa", "Los Ángeles", "Antuco", "Cabrero", "Laja", "Mulchén", "Nacimiento", "Negrete", "Quilaco", "Quilleco", "San Rosendo", "Santa Bárbara", "Tucapel", "Yumbel", "Alto Biobío"],
         
-                "Araucanía": ["Temuco", "Carahue", "Cunco", "Curarrehue", "Freire", "Galvarino", "Gorbea", "Lautaro", "Loncoche", "Melipeuco", "Nueva Imperial", "Padre las Casas", "Perquenco", "Pitrufquén", "Pucón", "Saavedra", "Teodoro Schmidt", "Toltén", "Vilcún", "Villarrica", "Cholchol", "Angol", "Collipulli", "Curacautín", "Ercilla", "Lonquimay", "Los Sauces", "Lumaco", "Purén", "Renaico", "Traiguén", "Victoria", ],
+                "La Araucanía": ["Temuco", "Carahue", "Cunco", "Curarrehue", "Freire", "Galvarino", "Gorbea", "Lautaro", "Loncoche", "Melipeuco", "Nueva Imperial", "Padre las Casas", "Perquenco", "Pitrufquén", "Pucón", "Saavedra", "Teodoro Schmidt", "Toltén", "Vilcún", "Villarrica", "Cholchol", "Angol", "Collipulli", "Curacautín", "Ercilla", "Lonquimay", "Los Sauces", "Lumaco", "Purén", "Renaico", "Traiguén", "Victoria", ],
         
                 "Los Ríos": ["Valdivia", "Corral", "Lanco", "Los Lagos", "Máfil", "Mariquina", "Paillaco", "Panguipulli", "La Unión", "Futrono", "Lago Ranco", "Río Bueno"],
         
@@ -111,6 +140,7 @@
                 reg_o.add(option);
                 reg_d.add(op_d);
             }
+
             function comunas(value, id) {
                 var com = document.getElementById(id);
                 for (var i = com.options.length - 1; i > 0; i--) {
@@ -204,7 +234,66 @@
                         return false;
                     }
                 }
+
+                var ro = JSON.parse(sessionStorage.getItem("v_ro"));
+                var co = JSON.parse(sessionStorage.getItem("v_co"));
+                var rd = JSON.parse(sessionStorage.getItem("v_rd"));
+                var cd = JSON.parse(sessionStorage.getItem("v_cd"));
+                var f = JSON.parse(sessionStorage.getItem("v_f"));
+                var ed = JSON.parse(sessionStorage.getItem("v_ed"));
+                var kd = JSON.parse(sessionStorage.getItem("v_kd"));
+                var ev = JSON.parse(sessionStorage.getItem("v_ev"));
+                var cel = JSON.parse(sessionStorage.getItem("v_ev"));
+
+                if (ro===null) {
+                    ro = []
+                }
+                ro.push(x["region-origen"].value)
+                if (co===null) {
+                    co = []
+                }
+                co.push(x["comuna-origen"].value)
+                if (rd===null) {
+                    rd = []
+                }
+                rd.push(x["region-destino"].value)
+                if (cd===null) {
+                    cd = []
+                }
+                cd.push(x["comuna-destino"].value)
+                if (f===null) {
+                    f = []
+                }
+                f.push(x["fecha-viaje"].value)
+                if (ed===null) {
+                    ed = []
+                }
+                ed.push(x["espacio-disponible"].value)
+                if (kd===null) {
+                    kd = []
+                }
+                kd.push(x["kilos-disponibles"].value)
+                if (ev===null) {
+                    ev = []
+                }
+                ev.push(x["email"].value)
+                if (cel===null) {
+                    cel = []
+                }
+                cel.push(x["celular"].value)
+
+
+                sessionStorage.setItem("v_ro", JSON.stringify(ro));
+                sessionStorage.setItem("v_co", JSON.stringify(co));
+                sessionStorage.setItem("v_rd", JSON.stringify(rd));
+                sessionStorage.setItem("v_cd", JSON.stringify(cd));
+                sessionStorage.setItem("v_f",JSON.stringify(f));
+                sessionStorage.setItem("v_ed", JSON.stringify(ed));
+                sessionStorage.setItem("v_kd", JSON.stringify(kd));
+                sessionStorage.setItem("v_ev", JSON.stringify(ev));
+                document.location.href ='index.html';
                 return false;
+                
             }
             </script>
     </body>

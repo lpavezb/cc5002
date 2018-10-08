@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ver Encargos</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <style>
+            h2{
+                text-align: center;
+                background-color: white; 
+            }
+            body{
+                background-image: url("ver.jpeg");
+                
+                
+            }
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td, th {
+                border: 10px solid #000000;
+                text-align: center;
+                padding: 8px;
+
+                font: 20px arial, sans-serif;
+                font-weight: bold;
+            }
+
+            tr:nth-child(even) {
+                background-color: #aaaaaa;
+            }
+            tr:nth-child(odd) {
+                background-color: #ffffff;
+            }
+            input{
+                font: 15px arial, sans-serif;
+                font-weight: bold;
+                width: auto;
+                height: auto;
+                padding: 5px;  
+                color: black;
+            }
+        </style>
+    </head>
+    <body onload="CreateTable()">
+
+        <h2>Encargos</h2>
+        <table id="t_encargos">
+            <tr>
+                <th>Origen</th>
+                <th>Destino</th>
+                <th>Descripción</th>
+                <th>Espacio</th>
+                <th>Kilos</th>
+                <th>email</th>
+                <th>Foto</th>
+            </tr>
+        </table>
+        <br>
+        <br>
+        <input type="button" onclick="location.href='index.html';" value="Inicio"/>
+    
+        <script>
+            function CreateTable() {
+                var de = JSON.parse(sessionStorage.getItem("e_de"));
+                var es = JSON.parse(sessionStorage.getItem("e_es"));
+                var ks = JSON.parse(sessionStorage.getItem("e_ks"));
+                var ro = JSON.parse(sessionStorage.getItem("e_ro"));
+                var co = JSON.parse(sessionStorage.getItem("e_co"));
+                var rd = JSON.parse(sessionStorage.getItem("e_rd"));
+                var cd = JSON.parse(sessionStorage.getItem("e_cd"));
+                var f = JSON.parse(sessionStorage.getItem("e_f"));
+                var ev = JSON.parse(sessionStorage.getItem("e_ev"));
+                var cel = JSON.parse(sessionStorage.getItem("e_cel"));
+
+                var table = document.getElementById("t_encargos");
+                if (ro===null) 
+                        ro = []
+                for (var i = 0; i < ro.length; i++) {
+                    var row = table.insertRow(1);
+                    var cell0 = row.insertCell(0);
+                    var cell1 = row.insertCell(1);
+                    var cell2 = row.insertCell(2);
+                    var cell3 = row.insertCell(3);
+                    var cell4 = row.insertCell(4);
+                    var cell5 = row.insertCell(5);
+                    var cell6 = row.insertCell(6);
+                    cell0.innerHTML = ro[i]+', '+co[i];
+                    cell1.innerHTML = rd[i]+', '+cd[i];
+                    cell2.innerHTML = de[i];
+                    cell3.innerHTML = es[i];
+                    cell4.innerHTML = ks[i];
+                    cell5.innerHTML = ev[i];
+                }
+            }
+        </script>
+    </body>
+</html>
