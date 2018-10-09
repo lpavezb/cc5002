@@ -1,5 +1,5 @@
 <!DOCTYPE html> 
-<html>
+<html lang="es">
     <head>
         <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
         <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
@@ -40,9 +40,9 @@
   			<label>Espacio:</label><br>
             <select name="espacio-solicitado">
                 <option value="select">Seleccione Espacio</option>
-                <option value="10">10x10x10</option>
-                <option value="20">20x20x20</option>
-                <option value="30">30x30x30</option>
+                <option value="10x10x10">10x10x10</option>
+                <option value="20x20x20">20x20x20</option>
+                <option value="30x30x30">30x30x30</option>
             </select>
             <br>
             <br>
@@ -81,8 +81,8 @@
             <br>
             <br>
             <label>Foto Encargo:</label>
-            <input id="imageFile" name="foto-encargo" type="file" class="imageFile"  accept="image/*"   /> 
-            <img src="" id="preview"  onclick="ResizeImage()">
+            <input type="file" name="foto-encargo" onchange="loadFile(event)">
+            <img src="#" alt="alt" id="preview"  onclick="resize()">
             <br>
             <br>
             <label>Email Encargador:</label>
@@ -102,83 +102,29 @@
             
         </form>
         <script>
-            //codigo obtenido de https://codepen.io/tuanitpro/pen/wJZJbp
-            $(document).ready(function() {
-
-                $('#imageFile').change(function(evt) {
-
-                    var files = evt.target.files;
-                    var file = files[0];
-
-                    if (file) {
-                        var reader = new FileReader();
-                        reader.onload = function(e) {
-                            document.getElementById('preview').src = e.target.result;
-                        };
-                        reader.readAsDataURL(file);
-                        ResizeImage();
-                    }
-                });
-            });
-            var size = 1;
-            function ResizeImage() {
-                if (window.File && window.FileReader && window.FileList && window.Blob) {
-                    var filesToUploads = document.getElementById('imageFile').files;
-                    var file = filesToUploads[0];
-                    if (file) {
-
-                        var reader = new FileReader();
-                        // Set the image once loaded into file reader
-                        reader.onload = function(e) {
-
-                            var img = document.createElement("img");
-                            img.src = e.target.result;
-
-                            var canvas = document.createElement("canvas");
-                            var ctx = canvas.getContext("2d");
-                            ctx.drawImage(img, 0, 0);
-
-                            if(size===1){
-                                var MAX_WIDTH = 320;
-                                var MAX_HEIGHT = 240;
-                                var width = img.width;
-                                var height = img.height;
-                                size = 2;
-                            }else{
-                                var MAX_WIDTH = 800;
-                                var MAX_HEIGHT = 600;
-                                var width = img.width;
-                                var height = img.height;
-                                size = 1;
-                            }
-                            if (width > height) {
-                                if (width > MAX_WIDTH) {
-                                    height *= MAX_WIDTH / width;
-                                    width = MAX_WIDTH;
-                                }
-                            } else {
-                                if (height > MAX_HEIGHT) {
-                                    width *= MAX_HEIGHT / height;
-                                    height = MAX_HEIGHT;
-                                }
-                            }
-                            canvas.width = width;
-                            canvas.height = height;
-                            var ctx = canvas.getContext("2d");
-                            ctx.drawImage(img, 0, 0, width, height);
-
-                            dataurl = canvas.toDataURL(file.type);
-                            document.getElementById('preview').src = dataurl;
-                        }
-                        reader.readAsDataURL(file);
-
-                    }
-
-                } else {
-                    alert('The File APIs are not fully supported in this browser.');
-                }
+            function loadFile(event){
+                var reader = new FileReader();
+                reader.onload = function(){
+                  var output = document.getElementById('preview');
+                  output.src = reader.result;
+                };
+                reader.readAsDataURL(event.target.files[0]);
+                resize();
             }
-
+            var size = 1;
+            function resize(){
+                var im = document.getElementById("preview");
+                if (size===1){
+                    im.style.width = "320px";
+                    im.style.height = "240px";
+                    size = 2;
+                }else{
+                    im.style.width = "800px";
+                    im.style.height = "600px";
+                    size = 1;
+                }                
+            }
+            
             var regions = ["Arica y Parinacota", "Tarapacá", "Antofagasta", "Atacama", "Coquimbo", "Valparaíso", "O'Higgins", "Maule", "Ñuble", "Biobío", "La Araucanía", "Los Ríos", "Los Lagos", "Aisén", "Magallanes", "Metropolitana"];
             var regionesYcomunas = {
                 "Arica y Parinacota": ["Arica", "Camarones", "Putre", "General Lagos"],
@@ -193,7 +139,7 @@
         
                 "Valparaíso": ["Valparaíso", "Casablanca", "Concón", "Juan Fernández", "Puchuncaví", "Quintero", "Viña del Mar", "Isla de Pascua", "Los Andes", "Calle Larga", "Rinconada", "San Esteban", "La Ligua", "Cabildo", "Papudo", "Petorca", "Zapallar", "Quillota", "Calera", "Hijuelas", "La Cruz", "Nogales", "San Antonio", "Algarrobo", "Cartagena", "El Quisco", "El Tabo", "Santo Domingo", "San Felipe", "Catemu", "Llaillay", "Panquehue", "Putaendo", "Santa María", "Quilpué", "Limache", "Olmué", "Villa Alemana"],
         
-                "O’Higgins": ["Rancagua", "Codegua", "Coinco", "Coltauco", "Doñihue", "Graneros", "Las Cabras", "Machalí", "Malloa", "Mostazal", "Olivar", "Peumo", "Pichidegua", "Quinta de Tilcoco", "Rengo", "Requínoa", "San Vicente", "Pichilemu", "La Estrella", "Litueche", "Marchihue", "Navidad", "Paredones", "San Fernando", "Chépica", "Chimbarongo", "Lolol", "Nancagua", "Palmilla", "Peralillo", "Placilla", "Pumanque", "Santa Cruz"],
+                "O'Higgins": ["Rancagua", "Codegua", "Coinco", "Coltauco", "Doñihue", "Graneros", "Las Cabras", "Machalí", "Malloa", "Mostazal", "Olivar", "Peumo", "Pichidegua", "Quinta de Tilcoco", "Rengo", "Requínoa", "San Vicente", "Pichilemu", "La Estrella", "Litueche", "Marchihue", "Navidad", "Paredones", "San Fernando", "Chépica", "Chimbarongo", "Lolol", "Nancagua", "Palmilla", "Peralillo", "Placilla", "Pumanque", "Santa Cruz"],
         
                 "Maule": ["Talca", "Constitución", "Curepto", "Empedrado", "Maule", "Pelarco", "Pencahue", "Río Claro", "San Clemente", "San Rafael", "Cauquenes", "Chanco", "Pelluhue", "Curicó", "Hualañé", "Licantén", "Molina", "Rauco", "Romeral", "Sagrada Familia", "Teno", "Vichuquén", "Linares", "Colbún", "Longaví", "Parral", "Retiro", "San Javier", "Villa Alegre", "Yerbas Buenas"],
         
@@ -225,6 +171,9 @@
                 reg_o.add(option);
                 reg_d.add(op_d);
             }
+
+            
+
             function comunas(value, id) {
                 var com = document.getElementById(id);
                 for (var i = com.options.length - 1; i > 0; i--) {
@@ -308,6 +257,7 @@
                 var im = x["foto-encargo"].value;
                 if (im==="") {
                 	alert("Ingrese una imagen");
+                    return false;
                 }
                 var e = x["email"].value;
                 if(!validateEmail(e)){
@@ -364,7 +314,7 @@
                 if (f===null) {
                     f = []
                 }
-                f.push(x["foto-encargo"].value)
+                f.push(document.getElementById('preview').src)
                 if (ev===null) {
                     ev = []
                 }
@@ -383,7 +333,7 @@
                 sessionStorage.setItem("e_cd", JSON.stringify(cd));
                 sessionStorage.setItem("e_f",JSON.stringify(f));
                 sessionStorage.setItem("e_ev", JSON.stringify(ev));
-                sessionStorage.setItem("e_cel", JSON.stringify(ev));
+                sessionStorage.setItem("e_cel", JSON.stringify(cel));
                 document.location.href ='index.html';
                 return false;
             }

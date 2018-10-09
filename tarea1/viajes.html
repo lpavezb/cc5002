@@ -1,5 +1,5 @@
 <!DOCTYPE html> 
-<html>
+<html lang="es">
     <head>
         <title>Viajes</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -108,7 +108,7 @@
         
                 "Valparaíso": ["Valparaíso", "Casablanca", "Concón", "Juan Fernández", "Puchuncaví", "Quintero", "Viña del Mar", "Isla de Pascua", "Los Andes", "Calle Larga", "Rinconada", "San Esteban", "La Ligua", "Cabildo", "Papudo", "Petorca", "Zapallar", "Quillota", "Calera", "Hijuelas", "La Cruz", "Nogales", "San Antonio", "Algarrobo", "Cartagena", "El Quisco", "El Tabo", "Santo Domingo", "San Felipe", "Catemu", "Llaillay", "Panquehue", "Putaendo", "Santa María", "Quilpué", "Limache", "Olmué", "Villa Alemana"],
         
-                "O’Higgins": ["Rancagua", "Codegua", "Coinco", "Coltauco", "Doñihue", "Graneros", "Las Cabras", "Machalí", "Malloa", "Mostazal", "Olivar", "Peumo", "Pichidegua", "Quinta de Tilcoco", "Rengo", "Requínoa", "San Vicente", "Pichilemu", "La Estrella", "Litueche", "Marchihue", "Navidad", "Paredones", "San Fernando", "Chépica", "Chimbarongo", "Lolol", "Nancagua", "Palmilla", "Peralillo", "Placilla", "Pumanque", "Santa Cruz"],
+                "O'Higgins": ["Rancagua", "Codegua", "Coinco", "Coltauco", "Doñihue", "Graneros", "Las Cabras", "Machalí", "Malloa", "Mostazal", "Olivar", "Peumo", "Pichidegua", "Quinta de Tilcoco", "Rengo", "Requínoa", "San Vicente", "Pichilemu", "La Estrella", "Litueche", "Marchihue", "Navidad", "Paredones", "San Fernando", "Chépica", "Chimbarongo", "Lolol", "Nancagua", "Palmilla", "Peralillo", "Placilla", "Pumanque", "Santa Cruz"],
         
                 "Maule": ["Talca", "Constitución", "Curepto", "Empedrado", "Maule", "Pelarco", "Pencahue", "Río Claro", "San Clemente", "San Rafael", "Cauquenes", "Chanco", "Pelluhue", "Curicó", "Hualañé", "Licantén", "Molina", "Rauco", "Romeral", "Sagrada Familia", "Teno", "Vichuquén", "Linares", "Colbún", "Longaví", "Parral", "Retiro", "San Javier", "Villa Alegre", "Yerbas Buenas"],
         
@@ -243,42 +243,42 @@
                 var ed = JSON.parse(sessionStorage.getItem("v_ed"));
                 var kd = JSON.parse(sessionStorage.getItem("v_kd"));
                 var ev = JSON.parse(sessionStorage.getItem("v_ev"));
-                var cel = JSON.parse(sessionStorage.getItem("v_ev"));
+                var cel = JSON.parse(sessionStorage.getItem("v_cel"));
 
                 if (ro===null) {
-                    ro = []
+                    ro = ["Arica y Parinacota", "Tarapacá", "Antofagasta", "Atacama", "Coquimbo"]
                 }
                 ro.push(x["region-origen"].value)
                 if (co===null) {
-                    co = []
+                    co = ["Arica", "Iquique", "Antofagasta", "Copiapó", "La Serena"]
                 }
                 co.push(x["comuna-origen"].value)
                 if (rd===null) {
-                    rd = []
+                    rd = ["Los Ríos", "Los Lagos", "Aisén", "Magallanes", "Metropolitana"]
                 }
                 rd.push(x["region-destino"].value)
                 if (cd===null) {
-                    cd = []
+                    cd = ["Río Bueno", "Palena", "Río Ibáñez", "Torres del Paine", "Peñaflor"]
                 }
                 cd.push(x["comuna-destino"].value)
                 if (f===null) {
-                    f = []
+                    f = ["2014-06-1","2016-03-2","2017-05-2","2019-05-3","2018-06-4"]
                 }
                 f.push(x["fecha-viaje"].value)
                 if (ed===null) {
-                    ed = []
+                    ed = ["10x10x10","10x10x10","10x10x10","20x20x20","30x30x30"]
                 }
                 ed.push(x["espacio-disponible"].value)
                 if (kd===null) {
-                    kd = []
+                    kd = ["200","200","200","200","200"]
                 }
                 kd.push(x["kilos-disponibles"].value)
                 if (ev===null) {
-                    ev = []
+                    ev = ["text@text.com", "text@text.com", "text@text.com", "text@text.com", "text@text.com"]
                 }
                 ev.push(x["email"].value)
                 if (cel===null) {
-                    cel = []
+                    cel = ["12345678","12345678","12345678","12345678",""]
                 }
                 cel.push(x["celular"].value)
 
@@ -291,6 +291,7 @@
                 sessionStorage.setItem("v_ed", JSON.stringify(ed));
                 sessionStorage.setItem("v_kd", JSON.stringify(kd));
                 sessionStorage.setItem("v_ev", JSON.stringify(ev));
+                sessionStorage.setItem("v_cel", JSON.stringify(cel));
                 document.location.href ='index.html';
                 return false;
                 

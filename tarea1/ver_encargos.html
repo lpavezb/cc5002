@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
     <head>
         <title>Ver Encargos</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -42,16 +42,19 @@
                 padding: 5px;  
                 color: black;
             }
+            img{
+                width: 80px;
+                height: 80px;
+            }
         </style>
     </head>
-    <body onload="CreateTable()">
+    <body id="body" onload="CreateTable()">
 
         <h2>Encargos</h2>
         <table id="t_encargos">
             <tr>
                 <th>Origen</th>
                 <th>Destino</th>
-                <th>Descripción</th>
                 <th>Espacio</th>
                 <th>Kilos</th>
                 <th>email</th>
@@ -63,6 +66,59 @@
         <input type="button" onclick="location.href='index.html';" value="Inicio"/>
     
         <script>
+            var ro = JSON.parse(sessionStorage.getItem("e_ro"));
+            var co = JSON.parse(sessionStorage.getItem("e_co"));
+            var rd = JSON.parse(sessionStorage.getItem("e_rd"));
+            var cd = JSON.parse(sessionStorage.getItem("e_cd"));
+            var f = JSON.parse(sessionStorage.getItem("e_f"));
+            var ed = JSON.parse(sessionStorage.getItem("e_es"));
+            var kd = JSON.parse(sessionStorage.getItem("e_ks"));
+            var ev = JSON.parse(sessionStorage.getItem("e_ev"));
+            var cel = JSON.parse(sessionStorage.getItem("e_cel"));
+            var de = JSON.parse(sessionStorage.getItem("e_de"));
+
+
+            if (ro===null) {
+                ro = ["Arica y Parinacota", "Tarapacá", "Antofagasta", "Atacama", "Coquimbo"]
+                sessionStorage.setItem("e_ro", JSON.stringify(ro));
+            }
+            if (co===null) {
+                co = ["Arica", "Iquique", "Antofagasta", "Copiapó", "La Serena"]
+                sessionStorage.setItem("e_co", JSON.stringify(co));
+            }
+            if (rd===null) {
+                rd = ["Los Ríos", "Los Lagos", "Aisén", "Magallanes", "Metropolitana"]
+                sessionStorage.setItem("e_rd", JSON.stringify(rd));
+            }
+            if (cd===null) {
+                cd = ["Río Bueno", "Palena", "Río Ibáñez", "Torres del Paine", "Peñaflor"]
+                sessionStorage.setItem("e_cd", JSON.stringify(cd));
+            }
+            if (f===null) {
+                f = ["encargo.jpeg","encargo.jpeg","encargo.jpeg","encargo.jpeg","encargo.jpeg"]
+                sessionStorage.setItem("e_f",JSON.stringify(f));
+            }
+            if (ed===null) {
+                ed = ["10x10x10","10x10x10","10x10x10","20x20x20","30x30x30"]
+                sessionStorage.setItem("e_es", JSON.stringify(ed));
+            }
+            if (kd===null) {
+                kd = ["200","200","200","200","200"]
+                sessionStorage.setItem("e_ks", JSON.stringify(kd));
+            }
+            if (ev===null) {
+                ev = ["text@text.com", "text@text.com", "text@text.com", "text@text.com", "text@text.com"]
+                sessionStorage.setItem("e_ev", JSON.stringify(ev));
+            }
+            if (cel===null) {
+                cel = ["12345678","12345678","12345678","12345678",""]
+                sessionStorage.setItem("e_cel", JSON.stringify(cel));
+            }
+            if (de===null) {
+                de = ["desc1","desc2","desc3","desc4","desc5"]
+                sessionStorage.setItem("e_de", JSON.stringify(de));
+            }
+
             function CreateTable() {
                 var de = JSON.parse(sessionStorage.getItem("e_de"));
                 var es = JSON.parse(sessionStorage.getItem("e_es"));
@@ -82,18 +138,59 @@
                     var row = table.insertRow(1);
                     var cell0 = row.insertCell(0);
                     var cell1 = row.insertCell(1);
-                    var cell2 = row.insertCell(2);
-                    var cell3 = row.insertCell(3);
-                    var cell4 = row.insertCell(4);
-                    var cell5 = row.insertCell(5);
-                    var cell6 = row.insertCell(6);
-                    cell0.innerHTML = ro[i]+', '+co[i];
-                    cell1.innerHTML = rd[i]+', '+cd[i];
-                    cell2.innerHTML = de[i];
-                    cell3.innerHTML = es[i];
-                    cell4.innerHTML = ks[i];
-                    cell5.innerHTML = ev[i];
+                    var cell3 = row.insertCell(2);
+                    var cell4 = row.insertCell(3);
+                    var cell5 = row.insertCell(4);
+                    var cell6 = row.insertCell(5);
+                    cell0.innerHTML = "<label onclick='display(this.parentElement.parentElement,"+i+");'>"+ro[i]+', '+co[i]+"</label>";
+                    cell1.innerHTML = "<label onclick='display(this.parentElement.parentElement,"+i+");'>"+rd[i]+', '+cd[i]+"</label>";
+                    cell3.innerHTML = "<label onclick='display(this.parentElement.parentElement,"+i+");'>"+es[i]+"</label>";
+                    cell4.innerHTML = "<label onclick='display(this.parentElement.parentElement,"+i+");'>"+ks[i]+"</label>";
+                    cell5.innerHTML = "<label onclick='display(this.parentElement.parentElement,"+i+");'>"+ev[i]+"</label>";
+                    cell6.innerHTML = "<img id='imagen"+i+"' src="+f[i]+" alt='hello' onclick='display(this.parentElement.parentElement,"+i+");'/>";
                 }
+            }
+            var size = 1;
+            function resize(indx){
+                var im = document.getElementById("imagen"+indx);
+                if (size===1){
+                    im.style.width = "120px";
+                    im.style.height = "120px";
+                    size = 2;
+                }else{
+                    im.style.width = "80px";
+                    im.style.height = "80px";
+                    size = 1;
+                }                
+            }
+            var h = document.createElement("h2");
+            h.innerHTML="Info Encargo";
+            body.appendChild(h);
+
+            function display(pa,i){
+                var row = pa.cloneNode(true);
+                var t = document.getElementById("show");
+                if(t===null){
+                    t = document.createElement("table");
+                    t.id = "show";
+                    var r = t.insertRow(0);
+                    r.innerHTML = "<th>Origen</th>\
+                                    <th>Destino</th>\
+                                    <th>Espacio</th>\
+                                    <th>Kilos</th>\
+                                    <th>email</th>\
+                                    <th>Foto</th>\
+                                    <th>Descripción</th>\
+                                    <th>Celular</th>";
+                }else{
+                    t.deleteRow(1);
+                }
+                var de = JSON.parse(sessionStorage.getItem("e_de"));
+                var cel = JSON.parse(sessionStorage.getItem("e_cel"));
+                var cell0 = (row.insertCell(6)).innerHTML = de[i];
+                var cell1 = (row.insertCell(7)).innerHTML = cel[i];;
+                t.appendChild(row);
+                body.appendChild(t);
             }
         </script>
     </body>
