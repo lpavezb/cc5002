@@ -8,6 +8,7 @@ if(isset($_GET['id'])) {
     $result = $db->query($query);
     $row = $result->fetch_row();
     ?>
+    <br>
     <tr>
         <th>Origen</th>
         <th>Destino</th>
@@ -31,3 +32,4 @@ if(isset($_GET['id'])) {
     <?php
 }
 ?>
+<br>

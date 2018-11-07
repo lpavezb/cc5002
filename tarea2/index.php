@@ -1,18 +1,18 @@
 <?php session_start();
-$_SESSION["test"] = "test";
 if(!isset($_SESSION["new"])){
     $_SESSION["new"] = true;
-    echo "new session";
     require_once('db_config.php');
     require_once('consultas.php');
+    require_once('reset_tmp.php');
     $db = DbConfig::getConnection();
     resetDB($db);
+
 }
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<title>Tarea 1</title>
+<title>Tarea 2</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <style>
     input{

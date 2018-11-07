@@ -42,9 +42,9 @@ $kilos = getKilos($db);
     </head>
     <body>
 
-        <form name="encargos" onsubmit="return validateForm()" action="e-action.php" method="post">
+        <form name="encargos" enctype="multipart/form-data" onsubmit="return validateForm()" action="e-action.php" method="post">
             <label>Descripción Encargo:</label><br>
-  			<input type="text" name="descripcion" id="descripcion" value="" size="100" maxlength="250">
+  			<input type="text" name="descripcion" id="descripcion" value="" size="100" maxlength="300">
   			<br>
   			<br>
   			<label>Espacio:</label><br>
@@ -94,7 +94,7 @@ $kilos = getKilos($db);
             <br>
             <br>
             <label>Foto Encargo:</label>
-            <input type="file" name="foto-encargo" onchange="loadFile(event)">
+            <input type="file" accept="image/*" name="foto-encargo" onchange="loadFile(event)">
             <img src="#" alt="alt" id="preview"  onclick="resize()">
             <br>
             <br>
@@ -114,9 +114,6 @@ $kilos = getKilos($db);
             <input type="button" onclick="location.href='ver_encargos.php';" value="Ver Encargos"/>
             
         </form>
-        <script src="https://code.jquery.com/jquery-2.1.1.min.js"
-                type="text/javascript"></script>
-
         <script>
             function getComunas(mod) {
                 var com = document.getElementById('comuna-'+mod);
@@ -124,14 +121,15 @@ $kilos = getKilos($db);
                     com.remove(i);
                 }
                 var val=document.getElementById('region-'+mod).value;
-                $.ajax({
-                    type: "GET",
-                    url: "comunas.php",
-                    data: {reg_id: val},
-                    success: function(data){
-                        $('#comuna-'+mod).html(data);
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("comuna-"+mod).innerHTML =
+                            this.responseText;
                     }
-                });
+                };
+                xhttp.open("GET", "comunas.php?reg_id="+val, true);
+                xhttp.send();
             }
 
             function loadFile(event){
@@ -212,6 +210,10 @@ $kilos = getKilos($db);
                 var x = document.forms["encargos"];
                 if (x["descripcion"].value==="") {
                     alert("debe agregar descripcion");
+                    return false;
+                }
+                if (x["descripcion"].value.length > 300) {
+                    alert("descripcion muy larga");
                     return false;
                 }
                 var sel = [x["region-origen"], x["comuna-origen"], x["region-destino"], x["comuna-destino"], x["espacio-solicitado"], x["kilos-solicitados"]];

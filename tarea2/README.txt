@@ -1,1 +1,1 @@
-ver tarea en https://users.dcc.uchile.cl/~lpavez/tarea1/index.html
+ver tarea en http://anakena.dcc.uchile.cl/~lpavez/tarea2/index.php

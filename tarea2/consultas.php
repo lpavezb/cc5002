@@ -81,7 +81,7 @@ function resetDB($db){
 }
 
 function resetViajes($db){
-    $sql ="CREATE TABLE IF NOT EXISTS `tarea2`.`viaje` (
+    $sql ="CREATE TABLE IF NOT EXISTS `cc500213_db`.`viaje` (
             `id` INT NOT NULL,
             `fecha_ida` DATETIME NOT NULL,
             `fecha_regreso` DATETIME NOT NULL,
@@ -98,22 +98,22 @@ function resetViajes($db){
             INDEX `fk_viaje_comuna2_idx` (`destino` ASC),
             CONSTRAINT `kilos_fk`
               FOREIGN KEY (`kilos_disponible`)
-              REFERENCES `tarea2`.`kilos_encargo` (`id`)
+              REFERENCES `cc500213_db`.`kilos_encargo` (`id`)
               ON DELETE NO ACTION
               ON UPDATE NO ACTION,
             CONSTRAINT `espacio_fk`
               FOREIGN KEY (`espacio_disponible`)
-              REFERENCES `tarea2`.`espacio_encargo` (`id`)
+              REFERENCES `cc500213_db`.`espacio_encargo` (`id`)
               ON DELETE NO ACTION
               ON UPDATE NO ACTION,
             CONSTRAINT `fk_viaje_comuna1`
               FOREIGN KEY (`origen`)
-              REFERENCES `tarea2`.`comuna` (`id`)
+              REFERENCES `cc500213_db`.`comuna` (`id`)
               ON DELETE NO ACTION
               ON UPDATE NO ACTION,
             CONSTRAINT `fk_viaje_comuna2`
               FOREIGN KEY (`destino`)
-              REFERENCES `tarea2`.`comuna` (`id`)
+              REFERENCES `cc500213_db`.`comuna` (`id`)
               ON DELETE NO ACTION
               ON UPDATE NO ACTION)
             ENGINE = InnoDB;";
@@ -121,7 +121,7 @@ function resetViajes($db){
 }
 
 function resetEncargos($db){
-    $sql ="CREATE TABLE IF NOT EXISTS `tarea2`.`encargo` (
+    $sql ="CREATE TABLE IF NOT EXISTS `cc500213_db`.`encargo` (
             `id` INT NOT NULL,
             `descripcion` VARCHAR(100) NOT NULL,
             `origen` INT NOT NULL,
@@ -138,22 +138,22 @@ function resetEncargos($db){
             INDEX `fk_encargo_comuna2_idx` (`destino` ASC),
             CONSTRAINT `espacio_e_fk`
               FOREIGN KEY (`espacio`)
-              REFERENCES `tarea2`.`espacio_encargo` (`id`)
+              REFERENCES `cc500213_db`.`espacio_encargo` (`id`)
               ON DELETE NO ACTION
               ON UPDATE NO ACTION,
             CONSTRAINT `kilos_e_fk`
               FOREIGN KEY (`kilos`)
-              REFERENCES `tarea2`.`kilos_encargo` (`id`)
+              REFERENCES `cc500213_db`.`kilos_encargo` (`id`)
               ON DELETE NO ACTION
               ON UPDATE NO ACTION,
             CONSTRAINT `fk_encargo_comuna1`
               FOREIGN KEY (`origen`)
-              REFERENCES `tarea2`.`comuna` (`id`)
+              REFERENCES `cc500213_db`.`comuna` (`id`)
               ON DELETE NO ACTION
               ON UPDATE NO ACTION,
             CONSTRAINT `fk_encargo_comuna2`
               FOREIGN KEY (`destino`)
-              REFERENCES `tarea2`.`comuna` (`id`)
+              REFERENCES `cc500213_db`.`comuna` (`id`)
               ON DELETE NO ACTION
               ON UPDATE NO ACTION)
             ENGINE = InnoDB;;";

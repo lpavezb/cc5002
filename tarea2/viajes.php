@@ -109,8 +109,7 @@ $kilos = getKilos($db);
             <input type="button" onclick="location.href='index.php';" value="Inicio"/>
             <input type="button" onclick="location.href='ver_viajes.php';" value="Ver Viajes"/>
         </form>
-        <script src="https://code.jquery.com/jquery-2.1.1.min.js"
-                type="text/javascript"></script>
+
         <script>
             function getComunas(mod) {
                 var com = document.getElementById('comuna-'+mod);
@@ -118,14 +117,15 @@ $kilos = getKilos($db);
                     com.remove(i);
                 }
                 var val=document.getElementById('region-'+mod).value;
-                $.ajax({
-                    type: "GET",
-                    url: "comunas.php",
-                    data: {reg_id: val},
-                    success: function(data){
-                        $('#comuna-'+mod).html(data);
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("comuna-"+mod).innerHTML =
+                            this.responseText;
                     }
-                });
+                };
+                xhttp.open("GET", "comunas.php?reg_id="+val, true);
+                xhttp.send();
             }
 
 

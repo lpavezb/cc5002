@@ -54,54 +54,71 @@ $encargos = getEncargos($db);
                 width: 80px;
                 height: 80px;
             }
+            button{
+                position: relative;
+                left: 45%;
+                top: 50%;
+                width: auto;
+                height: auto;
+                padding: 20px;
+                color: black;
+            }
         </style>
     </head>
-    <body id="body">
+    <body id="body" onload="loadTable(0)">
 
         <h2>Encargos</h2>
         <table id="t_encargos">
-            <tr>
-                <th>Origen</th>
-                <th>Destino</th>
-                <th>Espacio</th>
-                <th>Kilos</th>
-                <th>email</th>
-                <th>Foto</th>
-            </tr>
-            <?php foreach ($encargos as $encargo) {?>
-                <tr onclick="display(<?php echo $encargo["id"]?>)">
-                    <th><?php echo getComunaById($encargo["origen"]);?></th>
-                    <th><?php echo getComunaById($encargo["destino"]);?></th>
-                    <th><?php echo getEspacioById($encargo["espacio"]);?></th>
-                    <th><?php echo getKilosById($encargo["kilos"]);?></th>
-                    <th><?php echo $encargo["email_encargador"]?></th>
-                    <th><?php echo "<img id= '".$encargo['id'] ."' src= '".$encargo['foto'] ."' alt='hello'"?></th>
-                </tr>
-            <?php }?>
+
         </table>
         <br>
+        <button onclick="decrement()" > &lt;&lt;-- </button>
+        <button onclick="increment()" > --&gt;&gt; </button>
         <br>
         <table id="show">
 
         </table>
         <input type="button" onclick="location.href='index.php';" value="Inicio"/>
-
-        <script src="https://code.jquery.com/jquery-2.1.1.min.js"
-                type="text/javascript"></script>
         <script>
+            var indx = 0;
+            function increment() {
+                indx+=5;
+                <?php $e = count($encargos);?>
+                if (indx > <?php echo $e?>)
+                    indx = <?php echo ($e-2)>0?($e-2):0?>;
+                loadTable(indx);
+            }
+            function decrement() {
+                indx-=5;
+                if (indx < 0)
+                    indx = 0;
+                loadTable(indx);
+            }
+            function loadTable(ind) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("t_encargos").innerHTML =
+                            this.responseText;
+                    }
+                };
+                xhttp.open("GET", "display_enc2.php?in="+ind, true);
+                xhttp.send();
+            }
             function display(id){
                 var t = document.getElementById("show");
                 if (t.rows.length > 1)
                     t.deleteRow(-1);
 
-                $.ajax({
-                    type: "GET",
-                    url: "display_enc.php",
-                    data: {id: id},
-                    success: function(data){
-                        $('#show').html(data);
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("show").innerHTML =
+                            this.responseText;
                     }
-                });
+                };
+                xhttp.open("GET", "display_enc.php?id="+id, true);
+                xhttp.send();
             }
 
 

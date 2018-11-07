@@ -25,8 +25,32 @@
     $celular_viajero = htmlspecialchars($db->real_escape_string($_POST["celular"]));
 
 
-    if ($stmt->execute()){
-        header("Location: index.php");
+    $error = 0;
+    if (strtotime($fecha_regreso) < strtotime($fecha_ida)){
+        echo "<script>
+                alert('No se puede subir la imagen al servidor :(');
+                window.location.href='viajes.php';
+              </script>";
+        $error++;
+    }
+
+    if ($origen === $destino){
+        echo "<script>
+               alert('Comuna de origen tiene que ser diferente a la comuna de destino :(');
+                window.location.href='viajes.php';
+              </script>";
+        $error++;
+    }
+
+    if ($error==0) {
+        if ($stmt->execute())
+            header("Location: index.php");
+        else {
+            echo "<script>
+                    alert('No se puede cargar la informacion a la base de datos :(');
+                    window.location.href='viajes.php';
+                  </script>";
+        }
     }
 
 ?>

@@ -48,55 +48,71 @@ $viajes = getViajes($db);
                 padding: 5px;  
                 color: black;
             }
+            button{
+                position: relative;
+                left: 45%;
+                top: 50%;
+                width: auto;
+                height: auto;
+                padding: 20px;
+                color: black;
+            }
         </style>
     </head>
-    <body id="body">
+    <body id="body" onload="loadTable(0)">
 
         <h2>Viajes</h2>
-        <table id="t_viajes">
-            <tr>
-                <th>Origen</th>
-                <th>Destino</th>
-                <th>Fecha ida</th>
-                <th>Fecha regreso</th>
-                <th>Espacio</th>
-                <th>Kilos</th>
-                <th>email</th>
-            </tr>
-            <?php foreach ($viajes as $viaje) {?>
-                <tr onclick="display(<?php echo $viaje["id"]?>)">
-                    <th><?php echo getComunaById($viaje["origen"]);?></th>
-                    <th><?php echo getComunaById($viaje["destino"]);?></th>
-                    <th><?php echo $viaje["fecha_ida"]?></th>
-                    <th><?php echo $viaje["fecha_regreso"]?></th>
-                    <th><?php echo getEspacioById($viaje["espacio_disponible"]);?></th>
-                    <th><?php echo getKilosById($viaje["kilos_disponible"]);?></th>
-                    <th><?php echo $viaje["email_viajero"]?></th>
-                </tr>
-            <?php }?>
+        <table id="t_viajes" >
+
         </table>
         <br>
+        <button onclick="decrement()" > &lt;&lt;-- </button>
+        <button onclick="increment()" > --&gt;&gt; </button>
         <br>
         <table id="show">
 
         </table>
         <input type="button" onclick="location.href='index.php';" value="Inicio"/>
-        <script src="https://code.jquery.com/jquery-2.1.1.min.js"
-                type="text/javascript"></script>
         <script>
+            var indx = 0;
+            function increment() {
+                indx+=5;
+                <?php $v = count($viajes);?>
+                if (indx > <?php echo $v?>)
+                    indx = <?php echo ($v-2)>0?($v-2):0?>;
+                    loadTable(indx);
+            }
+            function decrement() {
+                indx-=5;
+                if (indx < 0)
+                    indx = 0;
+                loadTable(indx);
+            }
+            function loadTable(ind) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("t_viajes").innerHTML =
+                            this.responseText;
+                    }
+                };
+                xhttp.open("GET", "display_v2.php?in="+ind, true);
+                xhttp.send();
+            }
             function display(id){
                 var t = document.getElementById("show");
                 if (t.rows.length > 1)
                     t.deleteRow(-1);
 
-                $.ajax({
-                    type: "GET",
-                    url: "display_v.php",
-                    data: {id: id},
-                    success: function(data){
-                        $('#show').html(data);
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("show").innerHTML =
+                            this.responseText;
                     }
-                });
+                };
+                xhttp.open("GET", "display_v.php?id="+id, true);
+                xhttp.send();
             }
         </script>
     </body>
