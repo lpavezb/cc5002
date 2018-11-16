@@ -2,13 +2,13 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-CREATE SCHEMA IF NOT EXISTS `cc500213_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
-USE `cc500213_db` ;
+CREATE SCHEMA IF NOT EXISTS `tarea2` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+USE `tarea2` ;
 
 -- -----------------------------------------------------
--- Table `cc500213_db`.`kilos_encargo`
+-- Table `tarea2`.`kilos_encargo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cc500213_db`.`kilos_encargo` (
+CREATE TABLE IF NOT EXISTS `tarea2`.`kilos_encargo` (
   `id` INT NOT NULL,
   `valor` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
@@ -16,9 +16,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `cc500213_db`.`espacio_encargo`
+-- Table `tarea2`.`espacio_encargo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cc500213_db`.`espacio_encargo` (
+CREATE TABLE IF NOT EXISTS `tarea2`.`espacio_encargo` (
   `id` INT NOT NULL,
   `valor` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
@@ -26,9 +26,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `cc500213_db`.`region`
+-- Table `tarea2`.`region`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cc500213_db`.`region` (
+CREATE TABLE IF NOT EXISTS `tarea2`.`region` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(200) NOT NULL,
   PRIMARY KEY (`id`))
@@ -36,9 +36,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `cc500213_db`.`comuna`
+-- Table `tarea2`.`comuna`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cc500213_db`.`comuna` (
+CREATE TABLE IF NOT EXISTS `tarea2`.`comuna` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(200) NOT NULL,
   `region_id` INT NOT NULL,
@@ -46,16 +46,16 @@ CREATE TABLE IF NOT EXISTS `cc500213_db`.`comuna` (
   INDEX `fk_comuna_region1_idx` (`region_id` ASC),
   CONSTRAINT `fk_comuna_region1`
     FOREIGN KEY (`region_id`)
-    REFERENCES `cc500213_db`.`region` (`id`)
+    REFERENCES `tarea2`.`region` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `cc500213_db`.`viaje`
+-- Table `tarea2`.`viaje`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cc500213_db`.`viaje` (
+CREATE TABLE IF NOT EXISTS `tarea2`.`viaje` (
   `id` INT NOT NULL,
   `fecha_ida` DATETIME NOT NULL,
   `fecha_regreso` DATETIME NOT NULL,
@@ -72,31 +72,31 @@ CREATE TABLE IF NOT EXISTS `cc500213_db`.`viaje` (
   INDEX `fk_viaje_comuna2_idx` (`destino` ASC),
   CONSTRAINT `kilos_fk`
     FOREIGN KEY (`kilos_disponible`)
-    REFERENCES `cc500213_db`.`kilos_encargo` (`id`)
+    REFERENCES `tarea2`.`kilos_encargo` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `espacio_fk`
     FOREIGN KEY (`espacio_disponible`)
-    REFERENCES `cc500213_db`.`espacio_encargo` (`id`)
+    REFERENCES `tarea2`.`espacio_encargo` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_viaje_comuna1`
     FOREIGN KEY (`origen`)
-    REFERENCES `cc500213_db`.`comuna` (`id`)
+    REFERENCES `tarea2`.`comuna` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_viaje_comuna2`
     FOREIGN KEY (`destino`)
-    REFERENCES `cc500213_db`.`comuna` (`id`)
+    REFERENCES `tarea2`.`comuna` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `cc500213_db`.`encargo`
+-- Table `tarea2`.`encargo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cc500213_db`.`encargo` (
+CREATE TABLE IF NOT EXISTS `tarea2`.`encargo` (
   `id` INT NOT NULL,
   `descripcion` VARCHAR(100) NOT NULL,
   `origen` INT NOT NULL,
@@ -113,22 +113,22 @@ CREATE TABLE IF NOT EXISTS `cc500213_db`.`encargo` (
   INDEX `fk_encargo_comuna2_idx` (`destino` ASC),
   CONSTRAINT `espacio_e_fk`
     FOREIGN KEY (`espacio`)
-    REFERENCES `cc500213_db`.`espacio_encargo` (`id`)
+    REFERENCES `tarea2`.`espacio_encargo` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `kilos_e_fk`
     FOREIGN KEY (`kilos`)
-    REFERENCES `cc500213_db`.`kilos_encargo` (`id`)
+    REFERENCES `tarea2`.`kilos_encargo` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_encargo_comuna1`
     FOREIGN KEY (`origen`)
-    REFERENCES `cc500213_db`.`comuna` (`id`)
+    REFERENCES `tarea2`.`comuna` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_encargo_comuna2`
     FOREIGN KEY (`destino`)
-    REFERENCES `cc500213_db`.`comuna` (`id`)
+    REFERENCES `tarea2`.`comuna` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -139,32 +139,32 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
--- Data for table `cc500213_db`.`kilos_encargo`
+-- Data for table `tarea2`.`kilos_encargo`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `cc500213_db`;
-INSERT INTO `cc500213_db`.`kilos_encargo` (`id`, `valor`) VALUES (1, '200 gr');
-INSERT INTO `cc500213_db`.`kilos_encargo` (`id`, `valor`) VALUES (2, '500 gr');
-INSERT INTO `cc500213_db`.`kilos_encargo` (`id`, `valor`) VALUES (3, '800 gr');
-INSERT INTO `cc500213_db`.`kilos_encargo` (`id`, `valor`) VALUES (4, '1 kg');
-INSERT INTO `cc500213_db`.`kilos_encargo` (`id`, `valor`) VALUES (5, '1.5 kg');
-INSERT INTO `cc500213_db`.`kilos_encargo` (`id`, `valor`) VALUES (6, '2 kg');
+USE `tarea2`;
+INSERT INTO `tarea2`.`kilos_encargo` (`id`, `valor`) VALUES (1, '200 gr');
+INSERT INTO `tarea2`.`kilos_encargo` (`id`, `valor`) VALUES (2, '500 gr');
+INSERT INTO `tarea2`.`kilos_encargo` (`id`, `valor`) VALUES (3, '800 gr');
+INSERT INTO `tarea2`.`kilos_encargo` (`id`, `valor`) VALUES (4, '1 kg');
+INSERT INTO `tarea2`.`kilos_encargo` (`id`, `valor`) VALUES (5, '1.5 kg');
+INSERT INTO `tarea2`.`kilos_encargo` (`id`, `valor`) VALUES (6, '2 kg');
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `cc500213_db`.`espacio_encargo`
+-- Data for table `tarea2`.`espacio_encargo`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `cc500213_db`;
-INSERT INTO `cc500213_db`.`espacio_encargo` (`id`, `valor`) VALUES (1, '10x10x10');
-INSERT INTO `cc500213_db`.`espacio_encargo` (`id`, `valor`) VALUES (2, '20x20x20');
-INSERT INTO `cc500213_db`.`espacio_encargo` (`id`, `valor`) VALUES (3, '30x30x30');
+USE `tarea2`;
+INSERT INTO `tarea2`.`espacio_encargo` (`id`, `valor`) VALUES (1, '10x10x10');
+INSERT INTO `tarea2`.`espacio_encargo` (`id`, `valor`) VALUES (2, '20x20x20');
+INSERT INTO `tarea2`.`espacio_encargo` (`id`, `valor`) VALUES (3, '30x30x30');
 COMMIT;
 
 START TRANSACTION;
-USE `cc500213_db`;
+USE `tarea2`;
 INSERT INTO region (id, nombre) VALUES (1,'Región de Tarapacá');
 INSERT INTO region (id, nombre) VALUES (2,'Región de Antofagasta');
 INSERT INTO region (id, nombre) VALUES (3,'Región de Atacama');

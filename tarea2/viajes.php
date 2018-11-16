@@ -13,6 +13,11 @@ $kilos = getKilos($db);
         <title>Viajes</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <style>
+            h1{
+                background-color: white;
+                font-weight: bold;
+                font: 50px arial, sans-serif;
+            }
             body{
                 background-image: url("viaje.jpeg");
                 background-repeat: no-repeat;
@@ -101,6 +106,17 @@ $kilos = getKilos($db);
             <label>Número celular viajero:</label>
             <input type="text" value="" name="celular" size="15">
             <br>
+            <?php if(isset($_POST)){
+                if (isset($_SESSION["errorDate"]) and $_SESSION["errorDate"] === 1){
+                    echo "<h1> FECHA DE IDA DEBE SER ANTES QUE LA FECHA DE REGRESO </h1>";
+                }
+                if (isset($_SESSION["errorCo"]) and $_SESSION["errorCo"] === 1){
+                    echo "<h1> COMUNA DE ORIGEN DEBE SER DIFERENTE A COMUNA DE DESTINO </h1>";
+                }
+                if (isset($_SESSION["errorUpload"]) and $_SESSION["errorUpload"] === 1){
+                    echo "<h1> ERROR CARGANDO INFORMACION A LA BASE DE DATOS </h1>";
+                }
+            }?>
             <br>
             <input type="submit" name="agregar-viaje" value="Agregar Viaje">
             <br>

@@ -26,19 +26,18 @@
 
 
     $error = 0;
-    if (strtotime($fecha_regreso) < strtotime($fecha_ida)){
-        echo "<script>
-                alert('No se puede subir la imagen al servidor :(');
-                window.location.href='viajes.php';
-              </script>";
+    $_SESSION["errorCo"] = 0;
+    $_SESSION["errorDate"] = 0;
+    $_SESSION["errorUpload"] = 0;
+    $errorCo = $origen === $destino;
+
+    if ($errorCo){
+        $_SESSION["errorCo"] = 1;
         $error++;
     }
 
-    if ($origen === $destino){
-        echo "<script>
-               alert('Comuna de origen tiene que ser diferente a la comuna de destino :(');
-                window.location.href='viajes.php';
-              </script>";
+    if (strtotime($fecha_regreso) <= strtotime($fecha_ida)){
+        $_SESSION["errorDate"] = 1;
         $error++;
     }
 
@@ -46,11 +45,10 @@
         if ($stmt->execute())
             header("Location: index.php");
         else {
-            echo "<script>
-                    alert('No se puede cargar la informacion a la base de datos :(');
-                    window.location.href='viajes.php';
-                  </script>";
+            $_SESSION["errorUpload"] = 1;
+            header("Location: viajes.php");
         }
-    }
+    }else
+        header("Location: viajes.php");
 
 ?>

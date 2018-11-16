@@ -34,35 +34,36 @@
 
 
     //validate
-    $errorFile = uploadFile($id);
+    $_SESSION["errorFile"] = 0;
+    $_SESSION["errorCo"] = 0;
+    $_SESSION["errorUpload"] = 0;
+
     $errorCo = $co === $cd;
-    if ($errorFile){
-        echo "<script>
-                alert('No se puede subir la imagen al servidor :(');
-                window.location.href='encargos.php';
-              </script>";
-    }
+
 
     if ($errorCo){
-        echo "<script>
-                alert('Comuna de origen tiene que ser diferente a la comuna de destino :(');
-                window.location.href='encargos.php';
-              </script>";
+        $_SESSION["errorCo"] = 1;
+        header("Location: encargos.php");
+    }
+    else{
+
+        $errorFile = uploadFile($id);
+
+        if ($errorFile)
+            $_SESSION["errorFile"] = 1;
+
+        $error = $errorFile + $errorCo;
+
+        //upload
+        if ($error==0) {
+            if ($stmt->execute())
+                header("Location: index.php");
+            else {
+                $_SESSION["errorUpload"] = 1;
+                header("Location: encargos.php");
+            }
+        }else
+            header("Location: encargos.php");
     }
 
-
-
-    $error = $errorFile + $errorCo;
-
-    //upload
-    if ($error==0) {
-        if ($stmt->execute())
-            header("Location: index.php");
-        else {
-            echo "<script>
-                alert('No se puede cargar la informacion a la base de datos :(');
-                window.location.href='encargos.php';
-              </script>";
-        }
-    }
 ?>

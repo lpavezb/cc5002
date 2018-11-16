@@ -1,0 +1,17 @@
+{
+    "perrito1": {
+	"nombre": "Max",
+	"Raza": "Pastor Alemán",
+	"edad": 8
+     },
+    "perrito2": {
+	"nombre": "Gary",
+	"Raza": "Golden Retriever",
+	"edad": 1
+     },
+    "perrito3": {
+	"nombre": "Cornelio",
+	"Raza": "Husky",
+	"edad": 3
+     },
+}
